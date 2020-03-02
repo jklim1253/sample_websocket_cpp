@@ -1,0 +1,26 @@
+{
+  "name": "sample_websocket_cpp",
+  "version": "1.0.0",
+  "description": "websocket sample with nodejs server and cpp client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jklim1253/sample_websocket_cpp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jklim1253/sample_websocket_cpp/issues"
+  },
+  "homepage": "https://github.com/jklim1253/sample_websocket_cpp#readme",
+  "dependencies": {
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "http": "0.0.0",
+    "https": "^1.0.0"
+  }
+}
