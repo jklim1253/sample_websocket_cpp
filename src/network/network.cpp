@@ -1,8 +1,13 @@
 #include "network/network.hpp"
-#include <websocketpp/client.h>
+#include "common/common.hpp"
+
+#include <websocketpp/client.hpp>
+#include <websocketpp/config/asio_client.hpp>
 
 namespace ow
 {
+
+typedef websocketpp::client<websocketpp::config::asio_tls_client> client_t;
 
 signaling::signaling()
 {
@@ -27,7 +32,7 @@ void signaling::test()
 {
   elapsed_time check("signaling test");
 
-  websocket::client cli;
+  client_t cli;
 }
 #endif
 

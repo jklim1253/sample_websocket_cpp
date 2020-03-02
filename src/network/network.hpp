@@ -1,19 +1,24 @@
-#ifndef _NETWORK_HPP_
-#define _NETWORK_HPP_
+#ifndef _OW_NETWORK_HPP_
+#define _OW_NETWORK_HPP_
 
 #ifdef _WIN32
-# ifdef NETWORK_EXPORTS
-#   define NETWORK_API __declspec(dllexport)
+# ifdef OW_NETWORK_EXPORTS
+#   define OW_API __declspec(dllexport)
 # else
-#   define NETWORK_API __declspec(dllimport)
+#   define OW_API __declspec(dllimport)
 # endif
 #else // linux
+# ifdef OW_NETWOR_EXPORTS
+#   define OW_API __attribute__((visibility("default")))
+# else
+#   define OW_API
+# endif
 #endif
 
 namespace ow
 {
 
-class NETWORK_API signaling
+class OW_API signaling
 {
 public :
   signaling();
@@ -29,4 +34,4 @@ public :
 
 } // namespace ow
 
-#endif // _NETWORK_HPP_
+#endif // _OW_NETWORK_HPP_

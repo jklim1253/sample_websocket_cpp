@@ -6,6 +6,7 @@ set(SOURCES
 
 message("/src SOURCES => ${SOURCES}")
 
+add_subdirectory(common)
 add_subdirectory(network)
 
 add_executable(${PROJECT_NAME}

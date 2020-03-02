@@ -1,52 +1,46 @@
 #include "common/common.hpp"
 
+#include <iostream>
 #include <string>
 #include <chrono>
 
 namespace ow
 {
 
-using std;
-using std::chrono;
-
 struct elapsed_time::implement
 {
-  typedef elapsed_time parent_t;
-  parent_t* m_parent;
+  std::string m_tag;
+  std::chrono::steady_clock::time_point m_st;
 
-  string m_tag;
-  steady_clock::time_point m_st;
-
-  implement(parent_t* _parent, string const& _tag)
-    : m_parent(_parent)
-    , m_tag(_tag)
+  implement(const char* _tag)
+    : m_tag(_tag)
   {
-    m_st = steady_clock::now();
+    m_st = std::chrono::steady_clock::now();
   }
   ~implement()
   {
-    auto diff = steady_clock::now();
+    auto diff = (std::chrono::steady_clock::now() - m_st);
 
-    cout << '[' << m_tag << "] ";
-    auto sec = duraction_cast<seconds>(diff);
+    std::cout << '[' << m_tag << "] ";
+    auto sec = std::chrono::duration_cast<std::chrono::seconds>(diff);
     if (sec.count() > 0) {
-      cout << sec.count() << "s:";
+      std::cout << sec.count() << "s:";
     }
-    auto msec = duraction_cast<milliseconds>(diff);
+    auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(diff);
     if (msec.count() > 0) {
-      cout << msec.count() << "ms:";
+      std::cout << (msec.count()%1000) << "ms:";
     }
-    auto usec = duraction_cast<microseconds>(diff);
+    auto usec = std::chrono::duration_cast<std::chrono::microseconds>(diff);
     if (usec.count() > 0) {
-      cout << usec.count() << "us";
+      std::cout << (usec.count()%1000) << "us";
     }
 
-    cout << " elapsed." << endl;
+    std::cout << " elapsed." << std::endl;
   }
 };
 
 elapsed_time::elapsed_time(const char* _tag)
-  : impl(new implement(this, _tag))
+  : impl(new implement(_tag))
 {
 }
 elapsed_time::~elapsed_time()

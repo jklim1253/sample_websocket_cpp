@@ -5,14 +5,7 @@ set(SOURCES
 
 message("/src/network SOURCES => ${SOURCES}")
 
-add_compile_definitions(NETWORK_EXPORTS)
-
-find_path(WEBSOCKETPP_INCLUDE_DIR
-  NAME client.hpp
-  HINTS )
-message("WEBSOCKETPP_INCLUDE_DIR => ${WEBSOCKETPP_INCLUDE_DIR}")
-
-include_directories(${WEBSOCKETPP_INCLUDE_DIR})
+add_definitions(-DOW_NETWORK_EXPORTS)
 
 set(MODULE_NAME network)
 
@@ -21,6 +14,19 @@ add_library(${MODULE_NAME}
     ${SOURCES}
 )
 
+target_include_directories(${MODULE_NAME}
+  PUBLIC
+    ${VCPKG_INCLUDE_DIR}
+)
+
+target_link_directories(${MODULE_NAME}
+  PUBLIC 
+    ${VCPKG_LIBRARY_DEBUG_DIR}
+)
+
 target_link_libraries(${MODULE_NAME}
   common
+  boost_random-vc140-mt-gd
+  libssl
+  libcrypto
 )

@@ -5,12 +5,12 @@ set(SOURCES
 
 message("/src/common SOURCES => ${SOURCES}")
 
-add_compile_definitions(COMMON_EXPORTS)
+#add_compile_definitions(COMMON_EXPORTS)
 
 set(MODULE_NAME common)
 
 add_library(${MODULE_NAME}
-  SHARED
+  STATIC
     ${SOURCES}
 )
 

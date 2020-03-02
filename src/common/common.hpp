@@ -1,5 +1,5 @@
-#ifndef _COMMON_HPP_
-#define _COMMON_HPP_
+#ifndef _OW_COMMON_HPP_
+#define _OW_COMMON_HPP_
 
 namespace ow
 {
@@ -16,4 +16,4 @@ private :
 
 } // namespace ow
 
-#endif // _COMMON_HPP_
+#endif // _OW_COMMON_HPP_
