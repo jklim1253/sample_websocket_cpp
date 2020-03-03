@@ -2,6 +2,7 @@ const express = require('express')
 const https = require('https')
 const http = require('http')
 const settings = require('./settings.json')
+const broadcast = require('./services/broadcast')
 
 const app = express()
 app.set('view engine', 'ejs')
@@ -21,6 +22,8 @@ if (settings.secure) {
 else {
   webserver = http.createServer(app)
 }
+
+broadcast(webserver)
 
 webserver.listen(settings.port, settings.host, function() {
   console.log(`server is listening on http://${settings.host}:${settings.port}`)

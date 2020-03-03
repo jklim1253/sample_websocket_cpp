@@ -1,0 +1,40 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+body {
+  margin: 5px;
+}
+
+video {
+  width: 300px;
+  height: 200px;
+  background-color: #555555;
+}
+
+button {
+  width: 150px;
+  height: 40px;
+  font-size: 13px;
+  background-color: #AAAAAA;
+  color: #444444;
+  display: inline-block;
+  border-width: 1px;
+  border-color: #777777;
+  margin: 5px 0px 5px 0px;
+}
+button:hover {
+  background-color: #AEAEAE;
+  color: #333333;
+  border-color: #333333;
+}
+button:active {
+  background-color: #999999;
+  color: #333333;
+  border-color: #333333;
+}
+
+.command_panel {
+  display: block;
+}
