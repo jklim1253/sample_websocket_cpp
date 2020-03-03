@@ -1,4 +1,5 @@
 const wsserver = require('websocket').server
+const wsclient = require('websocket').client
 
 ////////////////////////////////////////////////////////////
 // websocket 
@@ -6,6 +7,11 @@ const wsserver = require('websocket').server
 let ws = null
 const peers = new Map()
 const broadcast = function(webserver) {
+
+  // connect analyzer webservice
+  connect_analyzer()
+
+  // create websocket server
   const options = {
     httpServer: webserver,
     autoAcceptConnections: false
@@ -30,6 +36,7 @@ const broadcast = function(webserver) {
       console.log(`    type: ${msg.type}`)
       console.log(`    utf8Data: ${msg.utf8Data}`)
       console.log(`    binaryData: ${msg.binaryData}`)
+      console.log(`message stringify: ${JSON.stringify(msg)}`)
       do_broadcast(connection, JSON.stringify(msg))
     })
     connection.on('close', function(reason, desc) {
@@ -53,6 +60,38 @@ function do_broadcast(sender, data) {
       p.send(data)
     }
   })
+
+  send_analyzer(data)
+}
+
+////////////////////////////////////////////////////////////
+// analyzer web service client
+////////////////////////////////////////////////////////////
+let awsclient = null
+let aws_connection = null
+function connect_analyzer() {
+  awsclient = new wsclient()
+  
+  awsclient.on('connect', function(conn) {
+    console.log(`analyzer connected.`)
+    aws_connection = conn
+  })
+  awsclient.on('connectFailed', function(e) {
+    console.log(`analyzer failed to connect.`, e)
+  })
+  awsclient.on('httpResponse', function(res, cli) {
+    console.log(`analyzer http response...`, res, cli)
+  })
+
+  awsclient.connect('ws://localhost:8888')
+}
+function send_analyzer(data) {
+  if (!aws_connection) {
+    console.log(`analyzer web service is not connected.`)
+    return
+  }
+
+  aws_connection.send(data)
 }
 
 ////////////////////////////////////////////////////////////

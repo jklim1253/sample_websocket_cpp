@@ -6,12 +6,10 @@ int main(int argc, char* argv[])
 {
   std::cout << "hello world" << std::endl;
 
-#if defined(_DEBUG) || defined(DEBUG)
   {
-    ow::signaling serv;
-    serv.test();
+    ow::analyzer_webserver service;
+    service.run();
   }
-#endif
 
   return 0;
 }

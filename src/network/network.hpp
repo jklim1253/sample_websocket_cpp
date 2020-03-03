@@ -18,18 +18,18 @@
 namespace ow
 {
 
-class OW_API signaling
+class OW_API analyzer_webserver
 {
-public :
-  signaling();
-  ~signaling();
+public:
+  analyzer_webserver();
+  ~analyzer_webserver();
 
-  void sendOffer();
-  void sendICECandidate();
+  void run();
+  void stop();
 
-#if defined(_DEBUG) || defined(DEBUG)
-  void test();
-#endif
+private:
+  class implement;
+  implement* impl;
 };
 
 } // namespace ow

@@ -26,6 +26,7 @@ target_link_directories(${MODULE_NAME}
 
 target_link_libraries(${MODULE_NAME}
   common
+  boost_system-vc140-mt-gd
   boost_random-vc140-mt-gd
   libssl
   libcrypto

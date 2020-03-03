@@ -12,6 +12,8 @@ function boot() {
 
 async function start() {
   const ret = await open_media()
+
+  createPeer()
 }
 
 function stop() {
@@ -19,7 +21,7 @@ function stop() {
 }
 
 function send() {
-  send_message()
+  send_input_message()
 }
 
 ////////////////////////////////////////////////////////////
@@ -52,7 +54,7 @@ function connect_ws() {
     debug(`    data:binaryData: ${data.binaryData}`)
   }
 }
-function send_message() {
+function send_input_message() {
   const message = getText('message')
   debug(`message: ${message}`)
   debug(`client: `, client)
@@ -63,6 +65,17 @@ function send_message() {
   }
   if (client.readyState === client.OPEN) {
     client.send(message)
+  }
+}
+function send_data(data) {
+  debug(`message: `, data)
+
+  if (!client) {
+    console.log(`websocket is not connected.`)
+    return
+  }
+  if (client.readyState === client.OPEN) {
+    client.send(JSON.stringify(data))
   }
 }
 ////////////////////////////////////////////////////////////
@@ -107,9 +120,48 @@ function createPeer() {
     ]
   }
   peer = new RTCPeerConnection(config)
-}
-function sendOffer() {
 
+  // register peer event handler
+  peer.addEventListener('icecandidate', on_icecandidate)
+  peer.addEventListener('negotiationneeded', on_negotiationneeded)
+  peer.addEventListener('track', on_track)
+
+  // add track to peer
+  if (stream_local) {
+    stream_local.getTracks().forEach(track => {
+      peer.addTrack(track, stream_local)
+    })
+  }
+}
+async function sendOffer() {
+  const offer = await peer.createOffer()
+  await peer.setLocalDescription(offer)
+
+  console.log(`offer: `, offer)
+
+  const data = {
+    type: 'offer',
+    data: offer
+  }
+  send_data(data)
+}
+function on_icecandidate(e) {
+  console.log(`on_icecandidate `, e.candidate)
+  if (e.candidate) {
+    const data = {
+      type: 'candidate',
+      data: e.candidate
+    }
+    send_data(data)
+  }
+}
+async function on_negotiationneeded(e) {
+  console.log(`on_negotiationneeded`)
+  await sendOffer()
+}
+function on_track(e) {
+  // TODO: no remote video
+  console.log(`on_track`)
 }
 
 ////////////////////////////////////////////////////////////
